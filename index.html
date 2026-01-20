@@ -260,6 +260,7 @@
                     <script>
                         function createGradeCard(gradeNum, gradeName, iconSvg, colorClass, colorHex) {
                             const isGrade6 = gradeNum === 6;
+                            const isGrade5 = gradeNum === 5;
                             return `
                             <div class="glass-card rounded-[2rem] p-6 hover:shadow-2xl transition-all duration-300 group relative overflow-hidden border-t-4 ${colorClass.replace('bg-', 'border-')}">
                                 <div class="flex items-center gap-5 mb-8">
@@ -272,14 +273,14 @@
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-2 gap-3 relative z-10">
-                                    <button onclick="${isGrade6 ? "switchTab('lessons')" : "showComingSoon('الفصل الأول')"}" class="btn-semester py-4 rounded-2xl font-bold text-white shadow-md ${isGrade6 ? 'bg-gradient-to-r from-fun-blue to-blue-600 hover:shadow-blue-500/30' : 'bg-slate-300 cursor-not-allowed'}">
+                                    <button onclick="${isGrade6 ? "switchTab('lessons')" : isGrade5 ? "window.location.href='nawat-stem-grade5-final.html'" : "showComingSoon('الفصل الأول')"}" class="btn-semester py-4 rounded-2xl font-bold text-white shadow-md ${(isGrade6 || isGrade5) ? 'bg-gradient-to-r from-fun-blue to-blue-600 hover:shadow-blue-500/30' : 'bg-slate-300 cursor-not-allowed'}">
                                         الفصل الأول
                                     </button>
                                     <button onclick="showComingSoon('الفصل الثاني')" class="btn-semester py-4 rounded-2xl font-bold text-white bg-slate-200 cursor-not-allowed hover:bg-slate-300 text-slate-400">
                                         الفصل الثاني
                                     </button>
                                 </div>
-                                ${isGrade6 ? '<div class="absolute top-4 left-4 bg-fun-green/10 text-fun-green text-xs font-black px-3 py-1.5 rounded-full border border-fun-green/20 animate-pulse">مفتوح الآن</div>' : ''}
+                                ${(isGrade6 || isGrade5) ? '<div class="absolute top-4 left-4 bg-fun-green/10 text-fun-green text-xs font-black px-3 py-1.5 rounded-full border border-fun-green/20 animate-pulse">مفتوح الآن</div>' : ''}
                             </div>
                             `;
                         }
