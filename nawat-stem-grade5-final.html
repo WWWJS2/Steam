@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصف الخامس | نواة STEM</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Cairo', 'sans-serif'] },
+                    colors: {
+                        'fun-blue': '#3b82f6',
+                        'fun-purple': '#8b5cf6',
+                        'fun-pink': '#ec4899',
+                        'fun-yellow': '#f59e0b',
+                        'fun-green': '#10b981',
+                        'fun-orange': '#f97316',
+                        'cream': '#fffbeb',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'slide-up': 'slide-up 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'slide-up': {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            background-color: #fffbeb;
+            overflow-x: hidden;
+        }
+        
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 10s infinite ease-in-out;
+        }
+        .shape:nth-child(1) { top: 10%; left: 10%; width: 100px; animation-duration: 15s; color: #3b82f6; }
+        .shape:nth-child(2) { top: 20%; right: 15%; width: 80px; animation-duration: 12s; animation-delay: 2s; color: #ec4899; }
+        .shape:nth-child(3) { bottom: 15%; left: 20%; width: 120px; animation-duration: 18s; animation-delay: 1s; color: #f59e0b; }
+        .shape:nth-child(4) { bottom: 25%; right: 10%; width: 90px; animation-duration: 14s; animation-delay: 3s; color: #10b981; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lesson-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .lesson-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-modal {
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* تنسيق الجداول */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        .data-table thead {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        .data-table th {
+            padding: 1rem;
+            text-align: right;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        .data-table td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: right;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f0f9ff;
+            transition: background-color 0.2s;
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-right: 4px solid #3b82f6;
+            border-radius: 1rem;
+        }
+
+        .content-section h3 {
+            color: #3b82f6;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .content-section p {
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .content-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .content-section li {
+            color: #475569;
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .content-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            .data-table { page-break-inside: avoid; }
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #fffbeb; }
+        ::-webkit-scrollbar-thumb { background: #fcd34d; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased pb-24 selection:bg-fun-yellow selection:text-white">
+
+    <div class="bg-shapes">
+        <svg class="shape" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+        <svg class="shape" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <svg class="shape" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
+        <svg class="shape" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/></svg>
+    </div>
+
+    <header class="bg-white/80 backdrop-blur-lg border-b border-white/50 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
+            <a href="nawat-stem-playful.html" class="flex items-center gap-2 px-5 py-2 rounded-full bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-colors no-print">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                العودة
+            </a>
+
+            <div class="flex flex-col items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 -mt-1">
+                <div class="flex items-center gap-2 mb-0.5">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-fun-purple to-fun-pink flex items-center justify-center text-white shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h1 class="text-3xl font-black text-gradient tracking-tight">الصف الخامس</h1>
+                </div>
+                <div class="bg-white/50 backdrop-blur-sm border border-white/50 px-4 py-0.5 rounded-full">
+                    <span class="text-[11px] font-bold text-fun-purple block text-center tracking-wide">استراتيجيات STEM • الفصل الأول</span>
+                </div>
+            </div>
+
+
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-8">
+        
+        <div class="relative group">
+            <div class="absolute -inset-1 bg-gradient-to-r from-fun-purple via-fun-pink to-fun-orange rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+            <div class="relative bg-white rounded-[2rem] p-8 md:p-12 overflow-hidden shadow-xl">
+                <div class="absolute top-0 left-0 w-64 h-64 bg-fun-purple/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+                
+                <div class="relative z-10 space-y-6">
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-800 leading-tight">
+                        استراتيجيات STEM <span class="text-transparent bg-clip-text bg-gradient-to-r from-fun-purple to-fun-pink">الصف الخامس</span>
+                    </h2>
+                    <p class="text-slate-600 text-xl font-medium max-w-2xl leading-relaxed">
+                        16 درس متكامل مع محتوى شامل وجداول بيانات وأنشطة عملية. اختر أي درس لعرض المحتوى الكامل.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-8">
+            <div class="flex items-center gap-4">
+                <div class="h-1.5 flex-1 bg-fun-purple rounded-full opacity-20"></div>
+                <h3 class="text-2xl font-black text-fun-purple bg-white px-8 py-3 border-2 border-purple-200 rounded-full shadow-sm">
+                    الدروس والاستراتيجيات
+                </h3>
+                <div class="h-1.5 flex-1 bg-fun-purple rounded-full opacity-20"></div>
+            </div>
+
+            <div id="lessonsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- سيتم تعبئة الدروس هنا -->
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200 py-4 z-50">
+        <div class="max-w-6xl mx-auto px-4 flex items-center justify-center gap-3 text-center">
+            <div class="w-8 h-8 rounded-full bg-fun-pink/10 flex items-center justify-center text-fun-pink animate-pulse">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <p class="text-slate-600 font-bold text-lg">
+                إعداد الأستاذة <span class="text-fun-purple font-black">أميرة عبدالله الحكمي</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- نافذة المحتوى -->
+    <div id="contentModal" class="fixed inset-0 z-[60] hidden bg-slate-900/60 backdrop-blur-sm">
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-[2.5rem] shadow-2xl overflow-hidden border-8 border-white/50 flex flex-col content-modal">
+                <div class="bg-gradient-to-r from-fun-purple to-fun-pink p-8 text-white relative shrink-0">
+                    <button onclick="closeModal()" class="absolute top-6 left-6 w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors z-50 no-print">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                    <h2 id="modalTitle" class="text-3xl font-black leading-tight pr-2"></h2>
+                </div>
+                
+                <div class="p-8 overflow-y-auto flex-1 bg-slate-50" id="modalContent">
+                    <!-- المحتوى سيتم إدراجه هنا -->
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lessonsData = [];
+        let currentLesson = null;
+
+        // تحميل البيانات من ملف JSON
+        async function loadLessons() {
+            try {
+                const response = await fetch('/grade5_lessons_complete.json');
+                if (response.ok) {
+                    lessonsData = await response.json();
+                } else {
+                    throw new Error('فشل تحميل البيانات');
+                }
+            } catch (e) {
+                console.log('جاري استخدام البيانات المدمجة');
+                lessonsData = await getEmbeddedLessons();
+            }
+            renderLessons();
+        }
+
+        // بيانات مدمجة كبديل
+        async function getEmbeddedLessons() {
+            return [
+                { id: 'grade5_lesson1', lesson_num: 1, title: 'استراتيجية STEM متكاملة – درس خصائص المادة', file: 'STEM_Grade5_Lesson1_Properties_of_Matter_FULL.docx', content: [] },
+                { id: 'grade5_lesson2', lesson_num: 2, title: 'استراتيجية STEM متكاملة – درس تغيرات المادة', file: 'STEM_Grade5_Lesson2_Changes_of_Matter_FULL.docx', content: [] },
+                { id: 'grade5_lesson3', lesson_num: 3, title: 'استراتيجية STEM متكاملة – درس المخاليط', file: 'STEM_Grade5_Lesson3_Mixtures_FULL.docx', content: [] },
+                { id: 'grade5_lesson4', lesson_num: 4, title: 'استراتيجية STEM متكاملة – درس المحاليل', file: 'STEM_Grade5_Lesson4_Solutions_FULL.docx', content: [] },
+                { id: 'grade5_lesson5', lesson_num: 5, title: 'استراتيجية STEM متكاملة – درس تصنيف الكائنات الحية', file: 'STEM_Grade5_Lesson5_Classification_of_Living_Things_FULL.docx', content: [] },
+                { id: 'grade5_lesson6', lesson_num: 6, title: 'استراتيجية STEM متكاملة – درس النباتات', file: 'STEM_Grade5_Lesson6_Plants_FULL.docx', content: [] },
+                { id: 'grade5_lesson7', lesson_num: 7, title: 'استراتيجية STEM متكاملة – درس التكاثر', file: 'STEM_Grade5_Lesson7_Reproduction_FULL.docx', content: [] },
+                { id: 'grade5_lesson8', lesson_num: 8, title: 'استراتيجية STEM متكاملة – درس دورات الحياة', file: 'STEM_Grade5_Lesson8_Life_Cycles_FULL.docx', content: [] },
+                { id: 'grade5_lesson9', lesson_num: 9, title: 'استراتيجية STEM متكاملة – درس العلاقات البيئية', file: 'STEM_Grade5_Lesson9_Ecosystem_Relationships_FULL.docx', content: [] },
+                { id: 'grade5_lesson10', lesson_num: 10, title: 'استراتيجية STEM متكاملة – درس التكيف والبقاء', file: 'STEM_Grade5_Lesson10_Adaptations_Survival_FULL.docx', content: [] },
+                { id: 'grade5_lesson11', lesson_num: 11, title: 'استراتيجية STEM متكاملة – درس الدورات في الأنظمة البيئية', file: 'STEM_Grade5_Lesson11_Cycles_in_Ecosystems_FULL.docx', content: [] },
+                { id: 'grade5_lesson12', lesson_num: 12, title: 'استراتيجية STEM متكاملة – درس التغيرات في الأنظمة البيئية', file: 'STEM_Grade5_Lesson12_Ecosystem_Changes_FULL.docx', content: [] },
+                { id: 'grade5_lesson13', lesson_num: 13, title: 'استراتيجية STEM متكاملة – درس التضاريس', file: 'STEM_Grade5_Lesson13_Landforms_FULL.docx', content: [] },
+                { id: 'grade5_lesson14', lesson_num: 14, title: 'استراتيجية STEM متكاملة – درس العمليات السطحية', file: 'STEM_Grade5_Lesson14_Surface_Processes_FULL.docx', content: [] },
+                { id: 'grade5_lesson15', lesson_num: 15, title: 'استراتيجية STEM متكاملة – درس مصادر الطاقة', file: 'STEM_Grade5_Lesson15_Energy_Sources_FULL.docx', content: [] },
+                { id: 'grade5_lesson16', lesson_num: 16, title: 'استراتيجية STEM متكاملة – درس الهواء والماء', file: 'STEM_Grade5_Lesson16_Air_and_Water_FULL.docx', content: [] }
+            ];
+        }
+
+        function renderLessons() {
+            const container = document.getElementById('lessonsContainer');
+            container.innerHTML = lessonsData.map((lesson, idx) => `
+                <div class="lesson-card bg-white rounded-[2rem] p-6 shadow-lg border-t-4 border-fun-purple hover:shadow-2xl cursor-pointer" onclick="openModal(${idx})">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-100 text-fun-purple flex items-center justify-center font-black text-xl shadow-sm">
+                            ${lesson.lesson_num}
+                        </div>
+                        <span class="bg-purple-100 text-fun-purple px-3 py-1 rounded-full text-xs font-bold">درس</span>
+                    </div>
+                    <h3 class="text-lg font-black text-slate-800 mb-4 line-clamp-2">${lesson.title}</h3>
+
+                </div>
+            `).join('');
+        }
+
+        function renderContent(content) {
+            let html = '<div class="space-y-6">';
+            
+            for (let item of content) {
+                if (item.type === 'paragraph') {
+                    // تحديد نوع الفقرة وتنسيقها
+                    const text = item.text;
+                    
+                    if (text.match(/^(أولاً|ثانياً|ثالثاً|رابعاً|خامساً|سادساً|سابعاً|ثامناً|تاسعاً|عاشراً)/)) {
+                        html += `<h3 class="text-2xl font-black text-fun-purple mt-6 mb-4 border-b-3 border-purple-200 pb-3">${text}</h3>`;
+                    } else if (text.match(/^[أ-ي][\d]+\)/)) {
+                        html += `<h4 class="text-lg font-bold text-fun-blue mt-4 mb-2">${text}</h4>`;
+                    } else if (text.length > 100) {
+                        html += `<div class="content-section"><p>${text}</p></div>`;
+                    } else {
+                        html += `<p class="text-slate-700 leading-relaxed">${text}</p>`;
+                    }
+                } else if (item.type === 'table') {
+                    html += renderTable(item.data);
+                }
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function renderTable(data) {
+            if (!data || data.length === 0) return '';
+            
+            let html = '<table class="data-table"><thead><tr>';
+            
+            // رؤوس الجدول
+            for (let cell of data[0]) {
+                html += `<th>${cell}</th>`;
+            }
+            html += '</tr></thead><tbody>';
+            
+            // صفوف الجدول
+            for (let i = 1; i < data.length; i++) {
+                html += '<tr>';
+                for (let cell of data[i]) {
+                    html += `<td>${cell}</td>`;
+                }
+                html += '</tr>';
+            }
+            
+            html += '</tbody></table>';
+            return html;
+        }
+
+        function openModal(index) {
+            currentLesson = lessonsData[index];
+            document.getElementById('modalTitle').textContent = currentLesson.title;
+            document.getElementById('modalContent').innerHTML = renderContent(currentLesson.content);
+            document.getElementById('contentModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('contentModal').classList.add('hidden');
+        }
+
+
+
+        window.addEventListener('load', loadLessons);
+    </script>
+</body>
+</html>
