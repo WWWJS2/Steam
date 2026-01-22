@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نواة STEM | Nawat STEM</title>
+
+  <!-- Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Cairo', 'sans-serif'] },
+          colors: {
+            'fun-blue': '#3b82f6',
+            'fun-purple': '#8b5cf6',
+            'fun-pink': '#ec4899',
+            'fun-yellow': '#f59e0b',
+            'fun-green': '#10b981',
+            'fun-orange': '#f97316',
+            'cream': '#fffbeb',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'float-delayed': 'float 6s ease-in-out 3s infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-18px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body{ background:#fffbeb; overflow-x:hidden; }
+    /* خلفية متحركة */
+    .bg-shapes{ position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden; }
+    .shape{ position:absolute; opacity:.10; animation: float 10s infinite ease-in-out; }
+    .shape:nth-child(1){ top:10%; left:10%; width:110px; color:#3b82f6; animation-duration:15s; }
+    .shape:nth-child(2){ top:20%; right:15%; width:85px; color:#ec4899; animation-duration:12s; animation-delay:2s; }
+    .shape:nth-child(3){ bottom:15%; left:18%; width:130px; color:#f59e0b; animation-duration:18s; animation-delay:1s; }
+    .shape:nth-child(4){ bottom:25%; right:10%; width:95px; color:#10b981; animation-duration:14s; animation-delay:3s; }
+
+    .glass-card{ background: rgba(255,255,255,.88); backdrop-filter: blur(12px); border:2px solid rgba(255,255,255,.65); }
+    .text-gradient{
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* تخصيص شريط التمرير */
+    ::-webkit-scrollbar{ width: 10px; }
+    ::-webkit-scrollbar-track{ background:#fffbeb; }
+    ::-webkit-scrollbar-thumb{ background:#fcd34d; border-radius:10px; border:2px solid #fffbeb; }
+  </style>
+</head>
+
+<body class="text-slate-800 antialiased pb-24 selection:bg-fun-yellow selection:text-white">
+
+  <!-- خلفية الأشكال -->
+  <div class="bg-shapes">
+    <svg class="shape" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+    <svg class="shape" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    <svg class="shape" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
+    <svg class="shape" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/></svg>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur-lg border-b border-white/50 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
+
+      <!-- يسار -->
+      <button onclick="showGameAlert()" class="hidden md:flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-fun-purple to-purple-600 text-white font-black text-lg shadow-lg hover:shadow-purple-500/30 hover:scale-105 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h12"/><path d="M12 6v12"/><path d="m21 12-4.3-4.3c-1.2-1.2-1.2-3.1 0-4.3 1.2-1.2 3.1-1.2 4.3 0z"/><path d="M3 12 7.3 7.7c1.2-1.2 1.2-3.1 0-4.3-1.2-1.2-3.1-1.2-4.3 0z"/><path d="M3 12l4.3 4.3c1.2 1.2 1.2 3.1 0 4.3-1.2 1.2-3.1 1.2-4.3 0z"/><path d="M21 12l-4.3 4.3c-1.2 1.2-1.2 3.1 0 4.3 1.2 1.2 3.1 1.2 4.3 0z"/></svg>
+        العب مع STEM
+      </button>
+
+      <!-- زر للموبايل -->
+      <button onclick="showGameAlert()" class="md:hidden p-3 bg-fun-purple text-white rounded-xl shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h12"/><path d="M12 6v12"/></svg>
+      </button>
+
+      <!-- الشعار -->
+      <div class="flex flex-col items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 w-full max-w-[260px] -mt-1 cursor-pointer">
+        <div class="flex items-center gap-2 mb-0.5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-fun-blue to-fun-green flex items-center justify-center text-white shadow-lg transform -rotate-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h1 class="text-3xl font-black text-gradient tracking-tight">نواة STEM</h1>
+        </div>
+        <div class="bg-white/50 backdrop-blur-sm border border-white/50 px-4 py-0.5 rounded-full -translate-y-0.5 shadow-sm">
+          <span class="text-[11px] font-bold text-fun-orange block text-center tracking-wide">علوم • مرح • ابتكار</span>
+        </div>
+      </div>
+
+      <!-- يمين -->
+      <a href="#grades-section" class="flex items-center gap-2 px-5 py-2 rounded-full bg-white text-fun-blue border-2 border-fun-blue/20 font-bold hover:bg-fun-blue hover:text-white hover:border-fun-blue transition-all shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M17 21v-8H7v8"/></svg>
+        <span class="hidden sm:inline">تصفح الصفوف</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-10">
+
+    <!-- ترحيب -->
+    <div class="relative group">
+      <div class="absolute -inset-1 bg-gradient-to-r from-fun-blue via-fun-purple to-fun-pink rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+      <div class="relative bg-white rounded-[2rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden shadow-xl">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-fun-yellow/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-fun-blue/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
+
+        <div class="flex-1 relative z-10 text-center md:text-right space-y-6">
+          <h2 class="text-4xl md:text-5xl font-black text-slate-800 leading-tight">
+            أهلاً بك في عالم <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-fun-blue to-fun-purple">العلوم الممتع!</span> 🚀
+          </h2>
+          <p class="text-slate-600 text-xl font-medium max-w-lg leading-relaxed">
+            اختر صفك وابدأ الدروس — وكل درس فيه نافذة مفصلة وزر طباعة جاهز.
+          </p>
+
+          <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
+            <button onclick="document.getElementById('grades-section').scrollIntoView({behavior:'smooth'})"
+                    class="bg-fun-green text-white px-8 py-4 rounded-2xl font-black text-lg shadow-lg shadow-green-500/30 hover:bg-green-600 hover:scale-105 transition-all flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              ابدأ الآن
+            </button>
+
+            <a href="grade-6.html"
+               class="bg-white text-fun-blue border-2 border-fun-blue/20 px-8 py-4 rounded-2xl font-black text-lg hover:border-fun-blue hover:bg-blue-50 transition-all flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              افتح الصف السادس
+            </a>
+          </div>
+        </div>
+
+        <!-- SVG -->
+        <div class="w-64 h-64 relative hidden md:flex items-center justify-center animate-float">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
+            <circle cx="100" cy="100" r="90" fill="#fff" stroke="#e2e8f0" stroke-width="2" />
+            <path d="M60 140 L100 60 L140 140 Z" fill="#3b82f6" opacity="0.9" />
+            <circle cx="100" cy="90" r="25" fill="#ec4899" opacity="0.9" />
+            <rect x="70" y="120" width="60" height="12" rx="6" fill="#10b981" opacity="0.9" />
+            <circle cx="140" cy="50" r="12" fill="#f59e0b" />
+            <circle cx="50" cy="80" r="10" fill="#8b5cf6" />
+            <ellipse cx="100" cy="100" rx="80" ry="30" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,5" transform="rotate(45 100 100)" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- الصفوف -->
+    <section id="grades-section" class="pt-4">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-12 rounded-2xl bg-fun-yellow flex items-center justify-center text-white shadow-lg transform rotate-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M17 21v-8H7v8"/></svg>
+        </div>
+        <h3 class="text-3xl font-black text-slate-800">اختر مرحلتك الدراسية</h3>
+      </div>
+
+      <div id="grades-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200 py-4 z-50">
+    <div class="max-w-6xl mx-auto px-4 flex items-center justify-center gap-3 text-center">
+      <div class="w-8 h-8 rounded-full bg-fun-pink/10 flex items-center justify-center text-fun-pink">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <p class="text-slate-600 font-bold text-lg">
+        إعداد الأستاذة <span class="text-fun-blue font-black">أميرة عبدالله الحكمي</span>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function showComingSoon(gradeName) {
+      alert(`عذراً، ${gradeName} قيد التحضير! 🚧\nسيتم إضافته قريباً.`);
+    }
+    function showGameAlert() {
+      alert("🎮 قسم الألعاب قادم قريباً!\nاستعد لتحديات ممتعة مع STEM.");
+    }
+
+    function createGradeCard({name, file, icon, color}) {
+      const openNow = !!file;
+      return `
+        <div class="glass-card rounded-[2rem] p-6 hover:shadow-2xl transition-all duration-300 group relative overflow-hidden border-t-4 ${color.replace('bg-', 'border-')}">
+          <div class="flex items-center gap-5 mb-8">
+            <div class="w-20 h-20 rounded-3xl ${color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-500 rotate-3 group-hover:rotate-12">
+              ${icon}
+            </div>
+            <div>
+              <h4 class="text-2xl font-black text-slate-800 mb-1">${name}</h4>
+              <span class="inline-block px-3 py-1 rounded-lg bg-slate-100 text-slate-500 text-xs font-bold">مناهج العلوم</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 relative z-10">
+            <button ${openNow ? `onclick="window.location.href='${file}'"` : `onclick="showComingSoon('${name} - الفصل الأول')"`}
+                    class="py-4 rounded-2xl font-bold text-white shadow-md ${openNow ? 'bg-gradient-to-r from-fun-blue to-blue-600 hover:shadow-blue-500/30' : 'bg-slate-300 cursor-not-allowed'}">
+              الفصل الأول
+            </button>
+
+            <button onclick="showComingSoon('${name} - الفصل الثاني')"
+                    class="py-4 rounded-2xl font-bold text-white bg-slate-200 cursor-not-allowed hover:bg-slate-300 text-slate-400">
+              الفصل الثاني
+            </button>
+          </div>
+
+          ${openNow ? `<div class="absolute top-4 left-4 bg-fun-green/10 text-fun-green text-xs font-black px-3 py-1.5 rounded-full border border-fun-green/20">مفتوح الآن</div>` : ``}
+        </div>
+      `;
+    }
+
+    const icons = {
+      grade1: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+      grade2: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>',
+      grade3: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>',
+      grade4: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+      grade5: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>',
+      grade6: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5"/><path d="M17 12h5"/><path d="M12 2v5"/><path d="M12 17v5"/><circle cx="12" cy="12" r="3"/><path d="M12 12 2.1 2.1"/><path d="M12 12l9.9-9.9"/><path d="M12 12 2.1 21.9"/><path d="M12 12l9.9 9.9"/></svg>'
+    };
+
+    const grades = [
+      { name: "الصف الأول",  file: "grade-1.html", icon: icons.grade1, color: "bg-fun-green" },
+      { name: "الصف الثاني", file: "",            icon: icons.grade2, color: "bg-fun-pink" },
+      { name: "الصف الثالث", file: "",            icon: icons.grade3, color: "bg-fun-orange" },
+      { name: "الصف الرابع", file: "",            icon: icons.grade4, color: "bg-fun-yellow" },
+      { name: "الصف الخامس", file: "grade-5.html", icon: icons.grade5, color: "bg-fun-purple" },
+      { name: "الصف السادس", file: "grade-6.html", icon: icons.grade6, color: "bg-fun-blue" }
+    ];
+
+    document.getElementById('grades-grid').innerHTML = grades.map(createGradeCard).join('');
+  </script>
+</body>
+</html>
