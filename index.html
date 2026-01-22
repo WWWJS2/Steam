@@ -1,838 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نواة STEM | Nawat STEM</title>
-    
-    <!-- خط Cairo -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Cairo', 'sans-serif'] },
-                    colors: {
-                        'fun-blue': '#3b82f6',
-                        'fun-purple': '#8b5cf6',
-                        'fun-pink': '#ec4899',
-                        'fun-yellow': '#f59e0b',
-                        'fun-green': '#10b981',
-                        'fun-orange': '#f97316',
-                        'cream': '#fffbeb',
-                    },
-                    animation: {
-                        'bounce-slow': 'bounce 3s infinite',
-                        'wiggle': 'wiggle 1s ease-in-out infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'float-delayed': 'float 6s ease-in-out 3s infinite',
-                        'pulse-glow': 'pulse-glow 2s infinite',
-                        'pop-in': 'pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-                        'slide-up': 'slide-up 0.5s ease-out forwards',
-                    },
-                    keyframes: {
-                        wiggle: {
-                            '0%, 100%': { transform: 'rotate(-3deg)' },
-                            '50%': { transform: 'rotate(3deg)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        'pulse-glow': {
-                            '0%, 100%': { boxShadow: '0 0 15px rgba(59, 130, 246, 0.5)' },
-                            '50%': { boxShadow: '0 0 25px rgba(59, 130, 246, 0.8)' },
-                        },
-                        'pop-in': {
-                            '0%': { opacity: '0', transform: 'scale(0.8)' },
-                            '100%': { opacity: '1', transform: 'scale(1)' },
-                        },
-                        'slide-up': {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        body { 
-            background-color: #fffbeb;
-            overflow-x: hidden;
-        }
-        
-        /* خلفية متحركة */
-        .bg-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .shape {
-            position: absolute;
-            opacity: 0.1;
-            animation: float 10s infinite ease-in-out;
-        }
-        .shape:nth-child(1) { top: 10%; left: 10%; width: 100px; animation-duration: 15s; color: #3b82f6; }
-        .shape:nth-child(2) { top: 20%; right: 15%; width: 80px; animation-duration: 12s; animation-delay: 2s; color: #ec4899; }
-        .shape:nth-child(3) { bottom: 15%; left: 20%; width: 120px; animation-duration: 18s; animation-delay: 1s; color: #f59e0b; }
-        .shape:nth-child(4) { bottom: 25%; right: 10%; width: 90px; animation-duration: 14s; animation-delay: 3s; color: #10b981; }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-        }
-        .fun-shadow {
-            box-shadow: 0 6px 0 rgba(0,0,0,0.1);
-        }
-        .fun-shadow:active {
-            box-shadow: 0 3px 0 rgba(0,0,0,0.1);
-            transform: translateY(3px);
-        }
-        .btn-semester {
-            transition: all 0.2s;
-        }
-        .btn-semester:hover {
-            transform: scale(1.02);
-        }
-        .hidden-content { display: none; }
-        
-        /* تخصيص شريط التمرير */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #fffbeb; }
-        ::-webkit-scrollbar-thumb { background: #fcd34d; border-radius: 10px; border: 2px solid #fffbeb; }
-
-        /* تأثيرات النصوص */
-        .text-gradient {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        /* بطاقة الدرس المحسنة */
-        .lesson-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .lesson-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: #3b82f6;
-        }
-        .lesson-card:hover .play-btn {
-            background-color: #3b82f6;
-            color: white;
-            transform: scale(1.1);
-        }
-    </style>
-</head>
-<body class="text-slate-800 antialiased pb-24 selection:bg-fun-yellow selection:text-white">
-
-    <!-- خلفية الأشكال المتحركة -->
-    <div class="bg-shapes">
-        <svg class="shape" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
-        <svg class="shape" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        <svg class="shape" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
-        <svg class="shape" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/></svg>
-    </div>
-
-    <!-- الشريط العلوي -->
-    <header class="bg-white/80 backdrop-blur-lg border-b border-white/50 sticky top-0 z-40 shadow-sm transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
-            
-            <!-- يسار: العب مع ستيم -->
-            <button onclick="showGameAlert()" class="hidden md:flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-fun-purple to-purple-600 text-white font-black text-lg shadow-lg hover:shadow-purple-500/30 hover:scale-105 transition-all duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h12"/><path d="M12 6v12"/><path d="m21 12-4.3-4.3c-1.2-1.2-1.2-3.1 0-4.3 1.2-1.2 3.1-1.2 4.3 0z"/><path d="M3 12 7.3 7.7c1.2-1.2 1.2-3.1 0-4.3-1.2-1.2-3.1-1.2-4.3 0z"/><path d="M3 12l4.3 4.3c1.2 1.2 1.2 3.1 0 4.3-1.2 1.2-3.1 1.2-4.3 0z"/><path d="M21 12l-4.3 4.3c-1.2 1.2-1.2 3.1 0 4.3 1.2 1.2 3.1 1.2 4.3 0z"/></svg>
-                العب مع STEM
-            </button>
-
-            <!-- زر القائمة للموبايل -->
-            <button onclick="showGameAlert()" class="md:hidden p-3 bg-fun-purple text-white rounded-xl shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h12"/><path d="M12 6v12"/></svg>
-            </button>
-
-            <!-- وسط: الشعار -->
-            <div class="flex flex-col items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 w-full max-w-[250px] -mt-1 group cursor-pointer" onclick="switchTab('main')">
-                <div class="flex items-center gap-2 mb-0.5 transition-transform duration-300 group-hover:scale-105">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-fun-blue to-fun-green flex items-center justify-center text-white shadow-lg transform -rotate-6 group-hover:rotate-0 transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                    </div>
-                    <h1 class="text-3xl font-black text-gradient tracking-tight">نواة STEM</h1>
-                </div>
-                <div class="bg-white/50 backdrop-blur-sm border border-white/50 px-4 py-0.5 rounded-full transform -translate-y-0.5 shadow-sm">
-                    <span class="text-[11px] font-bold text-fun-orange block text-center tracking-wide">علوم • مرح • ابتكار</span>
-                </div>
-            </div>
-
-            <!-- يمين: زر المساعد -->
-            <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-white text-fun-blue border-2 border-fun-blue/20 font-bold hover:bg-fun-blue hover:text-white hover:border-fun-blue transition-all duration-300 shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-                <span class="hidden sm:inline">المساعد الذكي</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- المحتوى الرئيسي -->
-    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
-        
-        <!-- التبويبات المرحة -->
-        <div class="flex justify-center gap-4 mb-8">
-            <button onclick="switchTab('main')" id="tab-main" class="px-8 py-3 rounded-full font-black text-xl transition-all transform hover:scale-105 bg-fun-yellow text-white shadow-lg shadow-yellow-500/30 flex items-center gap-2 ring-4 ring-yellow-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                الرئيسية
-            </button>
-            <button onclick="switchTab('lessons')" id="tab-lessons" class="px-8 py-3 rounded-full font-black text-xl transition-all transform hover:scale-105 bg-white text-slate-500 hover:text-fun-blue hover:bg-blue-50 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                الدروس
-            </button>
-        </div>
-
-        <!-- محتوى تبويب الرئيسية -->
-        <div id="content-main" class="space-y-10 animate-slide-up">
-            
-            <!-- بطاقة الترحيب -->
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-fun-blue via-fun-purple to-fun-pink rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                <div class="relative bg-white rounded-[2rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden shadow-xl">
-                    
-                    <!-- دوائر خلفية -->
-                    <div class="absolute top-0 left-0 w-64 h-64 bg-fun-yellow/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-                    <div class="absolute bottom-0 right-0 w-64 h-64 bg-fun-blue/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
-                    
-                    <div class="flex-1 relative z-10 text-center md:text-right space-y-6">
-                        <h2 class="text-4xl md:text-5xl font-black text-slate-800 leading-tight">
-                            أهلاً بك في عالم <br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-fun-blue to-fun-purple">العلوم الممتع!</span> 🚀
-                        </h2>
-                        <p class="text-slate-600 text-xl font-medium max-w-lg leading-relaxed">
-                            منصة تعليمية تفاعلية تجمع بين متعة اللعب وعمق المعرفة. اختر صفك وابدأ رحلة الاستكشاف الآن!
-                        </p>
-                        <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
-                            <button onclick="showGameAlert()" class="bg-fun-green text-white px-8 py-4 rounded-2xl font-black text-lg shadow-lg shadow-green-500/30 hover:bg-green-600 hover:scale-105 transition-all flex items-center gap-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                                ابدأ التحدي
-                            </button>
-                            <button onclick="document.getElementById('grades-section').scrollIntoView({behavior: 'smooth'})" class="bg-white text-fun-blue border-2 border-fun-blue/20 px-8 py-4 rounded-2xl font-black text-lg hover:border-fun-blue hover:bg-blue-50 transition-all flex items-center gap-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M17 21v-8H7v8"/></svg>
-                                تصفح الصفوف
-                            </button>
-                        </div>
-                    </div>
-                    <!-- صورة توضيحية SVG -->
-                    <div class="w-64 h-64 relative hidden md:flex items-center justify-center animate-float">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
-                            <circle cx="100" cy="100" r="90" fill="#fff" stroke="#e2e8f0" stroke-width="2" />
-                            <path d="M60 140 L100 60 L140 140 Z" fill="#3b82f6" opacity="0.9" />
-                            <circle cx="100" cy="90" r="25" fill="#ec4899" opacity="0.9" />
-                            <rect x="70" y="120" width="60" height="12" rx="6" fill="#10b981" opacity="0.9" />
-                            <circle cx="140" cy="50" r="12" fill="#f59e0b" class="animate-bounce" />
-                            <circle cx="50" cy="80" r="10" fill="#8b5cf6" class="animate-pulse" />
-                            <!-- مدارات -->
-                            <ellipse cx="100" cy="100" rx="80" ry="30" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,5" transform="rotate(45 100 100)" opacity="0.5"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <!-- شبكة الصفوف -->
-            <div id="grades-section" class="pt-8">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="w-12 h-12 rounded-2xl bg-fun-yellow flex items-center justify-center text-white shadow-lg transform rotate-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M17 21v-8H7v8"/></svg>
-                    </div>
-                    <h3 class="text-3xl font-black text-slate-800">اختر مرحلتك الدراسية</h3>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- دالة لتوليد بطاقة الصف -->
-                    <script>
-                        function createGradeCard(gradeNum, gradeName, iconSvg, colorClass, colorHex) {
-                            const isGrade6 = gradeNum === 6;
-                            const isGrade5 = gradeNum === 5;
-                            return `
-                            <div class="glass-card rounded-[2rem] p-6 hover:shadow-2xl transition-all duration-300 group relative overflow-hidden border-t-4 ${colorClass.replace('bg-', 'border-')}">
-                                <div class="flex items-center gap-5 mb-8">
-                                    <div class="w-20 h-20 rounded-3xl ${colorClass} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-500 rotate-3 group-hover:rotate-12">
-                                        ${iconSvg}
-                                    </div>
-                                    <div>
-                                        <h4 class="text-2xl font-black text-slate-800 mb-1">${gradeName}</h4>
-                                        <span class="inline-block px-3 py-1 rounded-lg bg-slate-100 text-slate-500 text-xs font-bold">مناهج العلوم</span>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3 relative z-10">
-                                    <button onclick="${isGrade6 ? "switchTab('lessons')" : isGrade5 ? "window.location.href='nawat-stem-grade5-final.html'" : "showComingSoon('الفصل الأول')"}" class="btn-semester py-4 rounded-2xl font-bold text-white shadow-md ${(isGrade6 || isGrade5) ? 'bg-gradient-to-r from-fun-blue to-blue-600 hover:shadow-blue-500/30' : 'bg-slate-300 cursor-not-allowed'}">
-                                        الفصل الأول
-                                    </button>
-                                    <button onclick="showComingSoon('الفصل الثاني')" class="btn-semester py-4 rounded-2xl font-bold text-white bg-slate-200 cursor-not-allowed hover:bg-slate-300 text-slate-400">
-                                        الفصل الثاني
-                                    </button>
-                                </div>
-                                ${(isGrade6 || isGrade5) ? '<div class="absolute top-4 left-4 bg-fun-green/10 text-fun-green text-xs font-black px-3 py-1.5 rounded-full border border-fun-green/20 animate-pulse">مفتوح الآن</div>' : ''}
-                            </div>
-                            `;
-                        }
-
-                        // أيقونات SVG للصفوف
-                        const icons = {
-                            grade1: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
-                            grade2: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>',
-                            grade3: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>',
-                            grade4: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
-                            grade5: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>',
-                            grade6: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5"/><path d="M17 12h5"/><path d="M12 2v5"/><path d="M12 17v5"/><circle cx="12" cy="12" r="3"/><path d="M12 12 2.1 2.1"/><path d="M12 12l9.9-9.9"/><path d="M12 12 2.1 21.9"/><path d="M12 12l9.9 9.9"/></svg>'
-                        };
-
-                        const grades = [
-                            { num: 1, name: "الصف الأول", icon: icons.grade1, color: "bg-fun-green" },
-                            { num: 2, name: "الصف الثاني", icon: icons.grade2, color: "bg-fun-pink" },
-                            { num: 3, name: "الصف الثالث", icon: icons.grade3, color: "bg-fun-orange" },
-                            { num: 4, name: "الصف الرابع", icon: icons.grade4, color: "bg-fun-yellow" },
-                            { num: 5, name: "الصف الخامس", icon: icons.grade5, color: "bg-fun-purple" },
-                            { num: 6, name: "الصف السادس", icon: icons.grade6, color: "bg-fun-blue" },
-                        ];
-
-                        document.write(grades.map(g => createGradeCard(g.num, g.name, g.icon, g.color)).join(''));
-                    </script>
-                </div>
-            </div>
-        </div>
-
-        <!-- محتوى تبويب الدروس (الصف السادس) -->
-        <div id="content-lessons" class="hidden-content space-y-8 animate-slide-up">
-            <div class="bg-white rounded-[2rem] p-6 shadow-xl border border-slate-100 flex items-center justify-between sticky top-24 z-30">
-                <div class="flex items-center gap-5">
-                    <button onclick="switchTab('main')" class="w-14 h-14 rounded-2xl bg-slate-50 hover:bg-slate-100 flex items-center justify-center transition-colors text-slate-600 border border-slate-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                    </button>
-                    <div>
-                        <h2 class="text-3xl font-black text-fun-blue">الصف السادس</h2>
-                        <p class="text-slate-500 font-bold flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                            الفصل الدراسي الأول
-                        </p>
-                    </div>
-                </div>
-                <div class="hidden md:block text-fun-blue opacity-20">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5"/><path d="M17 12h5"/><path d="M12 2v5"/><path d="M12 17v5"/><circle cx="12" cy="12" r="3"/><path d="M12 12 2.1 2.1"/><path d="M12 12l9.9-9.9"/><path d="M12 12 2.1 21.9"/><path d="M12 12l9.9 9.9"/></svg>
-                </div>
-            </div>
-            
-            <div id="curriculum-container" class="space-y-16 pb-12">
-                <!-- سيتم تعبئة المنهج هنا -->
-            </div>
-        </div>
-
-    </main>
-
-    <!-- التذييل الثابت -->
-    <footer class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200 py-4 z-50">
-        <div class="max-w-6xl mx-auto px-4 flex items-center justify-center gap-3 text-center">
-            <div class="w-8 h-8 rounded-full bg-fun-pink/10 flex items-center justify-center text-fun-pink animate-pulse">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            </div>
-            <p class="text-slate-600 font-bold text-lg">
-                إعداد الأستاذة <span class="text-fun-blue font-black">أميرة عبدالله الحكمي</span>
-            </p>
-        </div>
-    </footer>
-
-    <!-- النافذة المنبثقة (Modal) -->
-    <div id="modal" class="fixed inset-0 z-[60] hidden">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop"></div>
-        <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] shadow-2xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col overflow-hidden border-8 border-white/50" id="modal-content">
-                <!-- رأس المودال -->
-                <div class="bg-gradient-to-r from-fun-blue to-fun-purple p-8 text-white relative shrink-0 overflow-hidden">
-                    <!-- دوائر خلفية للمودال -->
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full translate-x-1/3 -translate-y-1/3"></div>
-                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -translate-x-1/3 translate-y-1/3"></div>
-
-                    <!-- زر الإغلاق العلوي (تم إصلاحه) -->
-                    <button onclick="closeModal()" class="absolute top-6 left-6 w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors z-50 cursor-pointer shadow-lg border border-white/30">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                    </button>
-                    
-                    <div class="mt-2 pr-2 relative z-10">
-                        <span id="modal-strategy" class="inline-block px-5 py-2 rounded-xl bg-fun-yellow text-white text-sm font-black mb-4 shadow-lg transform -rotate-1 border-2 border-white/20">
-                            <!-- اسم الاستراتيجية -->
-                        </span>
-                        <h2 id="modal-title" class="text-3xl md:text-4xl font-black leading-tight">
-                            <!-- عنوان الدرس -->
-                        </h2>
-                    </div>
-                </div>
-                
-                <!-- محتوى المودال -->
-                <div class="p-8 overflow-y-auto custom-scrollbar bg-slate-50 flex-1">
-                    <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-                        <div class="flex items-center gap-4 mb-8 pb-6 border-b border-slate-100">
-                            <div class="w-16 h-16 bg-fun-pink/10 rounded-2xl flex items-center justify-center text-fun-pink shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">نشاط STEM العملي</h3>
-                                <h3 id="modal-activity-title" class="text-2xl font-black text-slate-800">
-                                    <!-- عنوان النشاط -->
-                                </h3>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-10">
-                            <!-- المواد والزمن -->
-                            <div class="space-y-8">
-                                <div class="bg-blue-50 rounded-3xl p-6 border border-blue-100 relative overflow-hidden">
-                                    <div class="absolute top-0 right-0 w-20 h-20 bg-blue-100 rounded-full -mr-10 -mt-10 opacity-50"></div>
-                                    <h4 class="text-fun-blue font-black mb-3 flex items-center gap-2 text-lg relative z-10">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                        الزمن المقدر
-                                    </h4>
-                                    <p id="modal-duration" class="text-slate-800 font-black text-2xl relative z-10"></p>
-                                </div>
-                                
-                                <div>
-                                    <h4 class="text-slate-400 font-black mb-5 flex items-center gap-2 uppercase tracking-wider text-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                                        المواد المطلوبة
-                                    </h4>
-                                    <ul id="modal-materials" class="space-y-3"></ul>
-                                </div>
-                            </div>
-                            
-                            <!-- الخطوات -->
-                            <div>
-                                <h4 class="text-slate-400 font-black mb-5 flex items-center gap-2 uppercase tracking-wider text-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-                                    خطوات التنفيذ
-                                </h4>
-                                <div id="modal-steps" class="space-y-5"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- زر إغلاق سفلي إضافي -->
-                    <div class="mt-8 flex justify-center">
-                        <button onclick="closeModal()" class="bg-slate-200 text-slate-600 px-8 py-3 rounded-2xl font-black text-lg hover:bg-slate-300 transition-colors flex items-center gap-2 shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                            إغلاق النافذة
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // التبديل بين التبويبات
-        function switchTab(tabName) {
-            const mainTab = document.getElementById('tab-main');
-            const lessonsTab = document.getElementById('tab-lessons');
-            const mainContent = document.getElementById('content-main');
-            const lessonsContent = document.getElementById('content-lessons');
-
-            if (tabName === 'main') {
-                mainTab.className = "px-8 py-3 rounded-full font-black text-xl transition-all transform hover:scale-105 bg-fun-yellow text-white shadow-lg shadow-yellow-500/30 flex items-center gap-2 ring-4 ring-yellow-100";
-                lessonsTab.className = "px-8 py-3 rounded-full font-black text-xl transition-all transform hover:scale-105 bg-white text-slate-500 hover:text-fun-blue hover:bg-blue-50 flex items-center gap-2";
-                mainContent.classList.remove('hidden-content');
-                lessonsContent.classList.add('hidden-content');
-            } else {
-                mainTab.className = "px-8 py-3 rounded-full font-black text-xl transition-all transform hover:scale-105 bg-white text-slate-500 hover:text-fun-yellow hover:bg-yellow-50 flex items-center gap-2";
-                lessonsTab.className = "px-8 py-3 rounded-full font-black text-xl transition-all transform hover:scale-105 bg-fun-blue text-white shadow-lg shadow-blue-500/30 flex items-center gap-2 ring-4 ring-blue-100";
-                mainContent.classList.add('hidden-content');
-                lessonsContent.classList.remove('hidden-content');
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function showComingSoon(semester) {
-            alert(`عذراً، محتوى ${semester} لهذا الصف قيد التحضير! 🚧\nسيتم إضافته قريباً.`);
-        }
-
-        function showGameAlert() {
-            alert("🎮 قسم الألعاب قادم قريباً!\nاستعد لتحديات ممتعة مع STEM.");
-        }
-
-        // بيانات المنهج
-        const curriculum = {
-            units: [
-                {
-                    id: "u1",
-                    title: "تنوع الحياة",
-                    color: "text-fun-green",
-                    bg: "bg-green-500",
-                    border: "border-green-200",
-                    chapters: [
-                        {
-                            title: "الخلايا",
-                            lessons: [
-                                {
-                                    id: "l1",
-                                    title: "نظرية الخلية",
-                                    stemStrategy: "بناء عرض دليل-استنتاج",
-                                    stemActivity: {
-                                        title: "المحقق الخلوي: إثبات نظرية الخلية",
-                                        duration: "30 دقيقة",
-                                        materials: ["صور مجهرية لخلايا مختلفة", "بطاقات لاصقة", "لوحة عرض", "أقلام ملونة"],
-                                        steps: [
-                                            "اجمع 3 أدلة (صور مجهرية) تثبت أن الكائنات الحية تتكون من خلايا.",
-                                            "اربط كل دليل بعبارة من نظرية الخلية.",
-                                            "صغ استنتاجك النهائي بأسلوب علمي دقيق.",
-                                            "اعرض أدلتك واستنتاجك على زملائك كأنك محقق يحل لغزاً."
-                                        ]
-                                    }
-                                },
-                                {
-                                    id: "l2",
-                                    title: "الخلية النباتية والحيوانية",
-                                    stemStrategy: "تصميم نموذجين وظيفيين",
-                                    stemActivity: {
-                                        title: "مهندس الخلايا: بناء نماذج 3D",
-                                        duration: "45 دقيقة",
-                                        materials: ["صلصال بألوان مختلفة", "علب كرتون صغيرة", "أعواد أسنان", "بطاقات للتسمية"],
-                                        steps: [
-                                            "خطط لتصميم نموذجين: واحد للخلية النباتية وآخر للحيوانية.",
-                                            "استخدم المواد المتاحة لبناء العضيات (النواة، الميتوكوندريا).",
-                                            "ميز الخلية النباتية بإضافة الجدار الخلوي والبلاستيدات.",
-                                            "ضع بطاقات تسمية توضح وظيفة كل جزء."
-                                        ]
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            title: "الخلية والوراثة",
-                            lessons: [
-                                {
-                                    id: "l3",
-                                    title: "انقسام الخلايا",
-                                    stemStrategy: "محاكاة نقاط الفحص",
-                                    stemActivity: {
-                                        title: "لعبة التحكم: محاكاة دورة الخلية",
-                                        duration: "35 دقيقة",
-                                        materials: ["بطاقات ملونة (أحمر، أخضر)", "صافرة", "مساحة واسعة"],
-                                        steps: [
-                                            "مثل مراحل انقسام الخلية بحركات جسدية.",
-                                            "عين طالباً ليكون 'نقطة الفحص' يرفع البطاقة الحمراء عند الخطأ.",
-                                            "حاول إكمال دورة الانقسام دون أخطاء.",
-                                            "ناقش ماذا يحدث لو تعطلت نقطة الفحص."
-                                        ]
-                                    }
-                                },
-                                {
-                                    id: "l4",
-                                    title: "الوراثة والصفات",
-                                    stemStrategy: "جمع بيانات وتحليلها",
-                                    stemActivity: {
-                                        title: "محلل البيانات الوراثية",
-                                        duration: "40 دقيقة",
-                                        materials: ["استبانة ورقية", "أقلام", "لوحة رسم بياني"],
-                                        steps: [
-                                            "اختر 3 صفات وراثية (مثل: شحمة الأذن، ثني اللسان).",
-                                            "اجمع بيانات من زملائك في الفصل.",
-                                            "حول البيانات إلى نسب مئوية ورسم بياني.",
-                                            "قارن النتائج بالتوقعات النظرية."
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: "u2",
-                    title: "عمليات الحياة",
-                    color: "text-fun-purple",
-                    bg: "bg-purple-500",
-                    border: "border-purple-200",
-                    chapters: [
-                        {
-                            title: "عمليات الحياة في النباتات",
-                            lessons: [
-                                {
-                                    id: "l5",
-                                    title: "عمليات الحياة في النباتات",
-                                    stemStrategy: "قياس النتح",
-                                    stemActivity: {
-                                        title: "تجربة النتح: أين يذهب الماء؟",
-                                        duration: "يوم كامل (مراقبة)",
-                                        materials: ["نبات منزلي", "أكياس بلاستيكية شفافة", "خيط", "مقص"],
-                                        steps: [
-                                            "غطي ورقة نبات معرضة للشمس بكيس شفاف، وأخرى في الظل.",
-                                            "اربط الأكياس جيداً لمنع تسرب الهواء.",
-                                            "راقب تجمع قطرات الماء داخل الأكياس.",
-                                            "قارن كمية الماء المفقود في الحالتين."
-                                        ]
-                                    }
-                                },
-                                {
-                                    id: "l6",
-                                    title: "المخلوقات الحية الدقيقة",
-                                    stemStrategy: "تحديد المتغيرات",
-                                    stemActivity: {
-                                        title: "سباق الخميرة: الحرارة المثالية",
-                                        duration: "40 دقيقة",
-                                        materials: ["خميرة فورية", "سكر", "3 أكواب ماء (بارد، دافئ، ساخن)", "بالونات"],
-                                        steps: [
-                                            "ضع كميات متساوية من الخميرة والسكر في 3 قوارير.",
-                                            "أضف ماء بدرجات حرارة مختلفة لكل قارورة.",
-                                            "ثبت بالوناً على فوهة كل قارورة.",
-                                            "سجل أي درجة حرارة أنتجت أكبر كمية من الغاز."
-                                        ]
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            title: "عمليات الحياة في الإنسان",
-                            lessons: [
-                                {
-                                    id: "l7",
-                                    title: "الهضم والإخراج والتنفس",
-                                    stemStrategy: "بناء نموذج مسار",
-                                    stemActivity: {
-                                        title: "رحلة الغذاء: نموذج الجهاز الهضمي",
-                                        duration: "50 دقيقة",
-                                        materials: ["أنابيب بلاستيكية", "أكياس بلاستيك", "ملونات طعام", "ماء"],
-                                        steps: [
-                                            "صمم نموذجاً يحاكي مسار الطعام من الفم للأمعاء.",
-                                            "استخدم الأكياس للمعدة والأنابيب للأمعاء.",
-                                            "أضف ماء ملون لتمثيل العصارات.",
-                                            "تتبع مسار 'الطعام' واشرح العمليات."
-                                        ]
-                                    }
-                                },
-                                {
-                                    id: "l8",
-                                    title: "الحركة والإحساس",
-                                    stemStrategy: "اختبار زمن الاستجابة",
-                                    stemActivity: {
-                                        title: "اختبار رد الفعل السريع",
-                                        duration: "30 دقيقة",
-                                        materials: ["مسطرة طويلة", "ورقة وقلم"],
-                                        steps: [
-                                            "يمسك زميلك المسطرة، وتضع يدك عند الصفر.",
-                                            "يسقط زميلك المسطرة فجأة، وعليك الإمساك بها.",
-                                            "سجل المسافة التي أمسكت المسطرة عندها.",
-                                            "كرر التجربة واحسب المتوسط."
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: "u3",
-                    title: "الأنظمة البيئية",
-                    color: "text-fun-orange",
-                    bg: "bg-orange-500",
-                    border: "border-orange-200",
-                    chapters: [
-                        {
-                            title: "الأنظمة البيئية",
-                            lessons: [
-                                {
-                                    id: "l9",
-                                    title: "السلاسل والشبكات الغذائية",
-                                    stemStrategy: "ميزانية الطاقة (10%)",
-                                    stemActivity: {
-                                        title: "لعبة الطاقة: قاعدة الـ 10%",
-                                        duration: "30 دقيقة",
-                                        materials: ["قطع عد (فاصوليا)", "أكواب ورقية"],
-                                        steps: [
-                                            "ابدأ بـ 100 قطعة تمثل طاقة الشمس.",
-                                            "انقل الطاقة للمستهلك الأول (10% فقط).",
-                                            "انقل الطاقة للمستهلك الثاني (قطعة واحدة).",
-                                            "ناقش تناقص الطاقة في الهرم الغذائي."
-                                        ]
-                                    }
-                                },
-                                {
-                                    id: "l10",
-                                    title: "مقارنة الأنظمة البيئية",
-                                    stemStrategy: "إنشاء نظام مصغر",
-                                    stemActivity: {
-                                        title: "عالم في زجاجة",
-                                        duration: "60 دقيقة",
-                                        materials: ["قوارير كبيرة", "تربة", "حصى", "نباتات", "ماء"],
-                                        steps: [
-                                            "اقطع القارورة وابنِ طبقات التربة والحصى.",
-                                            "ازرع النباتات وأضف الماء.",
-                                            "أغلق النظام بإحكام.",
-                                            "راقب دورة الماء ونمو النباتات."
-                                        ]
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            title: "موارد الأرض",
-                            lessons: [
-                                {
-                                    id: "l11",
-                                    title: "التربة",
-                                    stemStrategy: "اختبار النفاذية",
-                                    stemActivity: {
-                                        title: "مهندس التربة: اختبار النفاذية",
-                                        duration: "40 دقيقة",
-                                        materials: ["3 أنواع تربة", "أقماع", "أكواب قياس", "ماء"],
-                                        steps: [
-                                            "ضع كميات متساوية من التربة في الأقماع.",
-                                            "صب الماء على العينات في نفس الوقت.",
-                                            "قس كمية الماء النافذ خلال دقيقة.",
-                                            "حدد التربة الأنسب للزراعة."
-                                        ]
-                                    }
-                                },
-                                {
-                                    id: "l12",
-                                    title: "حماية الموارد",
-                                    stemStrategy: "تصميم حل هندسي",
-                                    stemActivity: {
-                                        title: "تحدي الاستدامة: مرشح المياه",
-                                        duration: "50 دقيقة",
-                                        materials: ["قوارير", "قطن", "رمل", "حصى", "ماء عكر"],
-                                        steps: [
-                                            "صمم جهازاً لتنقية المياه.",
-                                            "رتب طبقات الترشيح داخل القارورة.",
-                                            "صب الماء العكر واختبر النقاء.",
-                                            "حسن التصميم لزيادة الكفاءة."
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        };
-
-        function renderCurriculum() {
-            const container = document.getElementById('curriculum-container');
-            let html = '';
-
-            curriculum.units.forEach(unit => {
-                html += `
-                    <div class="space-y-8">
-                        <div class="flex items-center gap-4">
-                            <div class="h-1.5 flex-1 ${unit.bg} rounded-full opacity-20"></div>
-                            <h3 class="text-2xl font-black ${unit.color} bg-white px-8 py-3 border-2 ${unit.border} rounded-full shadow-sm transform -rotate-1">
-                                ${unit.title}
-                            </h3>
-                            <div class="h-1.5 flex-1 ${unit.bg} rounded-full opacity-20"></div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                `;
-
-                unit.chapters.forEach(chapter => {
-                    html += `
-                        <div class="space-y-5">
-                            <h4 class="text-lg font-bold text-slate-500 px-2 flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                ${chapter.title}
-                            </h4>
-                            <div class="grid gap-5">
-                    `;
-
-                    chapter.lessons.forEach(lesson => {
-                        const lessonData = JSON.stringify(lesson).replace(/"/g, '&quot;');
-                        html += `
-                            <div onclick="openModal(${lessonData})" class="lesson-card bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm cursor-pointer group relative overflow-hidden">
-                                <div class="flex items-start justify-between relative z-10">
-                                    <div class="flex items-center gap-5">
-                                        <div class="w-14 h-14 rounded-2xl bg-slate-50 text-slate-400 group-hover:bg-fun-blue group-hover:text-white transition-colors duration-300 flex items-center justify-center shadow-inner">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-bold text-slate-800 text-xl group-hover:text-fun-blue transition-colors mb-2">
-                                                ${lesson.title}
-                                            </h5>
-                                            <span class="text-xs font-bold text-fun-purple bg-purple-50 px-3 py-1.5 rounded-lg inline-block border border-purple-100">
-                                                ✨ استراتيجية: ${lesson.stemStrategy}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="play-btn w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 transition-all duration-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5v14l11-7z"/></svg>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    html += `</div></div>`;
-                });
-
-                html += `</div></div>`;
-            });
-
-            container.innerHTML = html;
-        }
-
-        // دوال النافذة المنبثقة
-        const modal = document.getElementById('modal');
-        const modalBackdrop = document.getElementById('modal-backdrop');
-        const modalContent = document.getElementById('modal-content');
-
-        function openModal(lesson) {
-            document.getElementById('modal-title').textContent = lesson.title;
-            document.getElementById('modal-strategy').textContent = `💡 استراتيجية: ${lesson.stemStrategy}`;
-            document.getElementById('modal-activity-title').textContent = lesson.stemActivity.title;
-            document.getElementById('modal-duration').textContent = lesson.stemActivity.duration;
-
-            const materialsList = document.getElementById('modal-materials');
-            materialsList.innerHTML = lesson.stemActivity.materials.map(m => `
-                <li class="flex items-center gap-3 text-slate-700 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                    <span class="text-fun-blue bg-blue-50 p-2 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
-                    </span>
-                    <span class="font-bold text-lg">${m}</span>
-                </li>
-            `).join('');
-
-            const stepsList = document.getElementById('modal-steps');
-            stepsList.innerHTML = lesson.stemActivity.steps.map((step, idx) => `
-                <div class="flex gap-5 group">
-                    <div class="w-10 h-10 rounded-xl bg-fun-blue text-white flex items-center justify-center font-black shrink-0 shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform">
-                        ${idx + 1}
-                    </div>
-                    <p class="text-slate-700 leading-relaxed bg-white p-5 rounded-[1.5rem] border border-slate-100 shadow-sm flex-1 font-medium text-lg group-hover:border-fun-blue/30 transition-colors">
-                        ${step}
-                    </p>
-                </div>
-            `).join('');
-
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modalBackdrop.classList.remove('opacity-0');
-                modalContent.classList.remove('opacity-0', 'scale-95');
-                modalContent.classList.add('opacity-100', 'scale-100');
-            }, 10);
-        }
-
-        function closeModal() {
-            modalBackdrop.classList.add('opacity-0');
-            modalContent.classList.remove('opacity-100', 'scale-100');
-            modalContent.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
-
-        modalBackdrop.addEventListener('click', closeModal);
-        renderCurriculum();
-    </script>
-</body>
-</html>
