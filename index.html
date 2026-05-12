@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!-- index.html - موقع نوات ستيم -->
+<!-- المعلمة: أستاذة أميرة عبدالله الحكمي - الصف الأول الابتدائي - الفصل الأول -->
+<!-- طريقة الاستخدام: افتح هذا الملف مباشرة في أي متصفح حديث -->
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="نوات ستيم - موقع تعليمي لمادة العلوم STEM للصف الأول الابتدائي">
+  <title>نوات ستيم | علوم الصف الأول</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== الشريط العلوي ===== -->
+<header role="banner">
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="logo-icon" aria-hidden="true">🌱</div>
+      <div class="logo-text">
+        <h1>نوات ستيم</h1>
+        <p>العلوم STEM - الصف الأول الابتدائي</p>
+      </div>
+    </div>
+    <div class="header-teacher" aria-label="معلومات المعلمة">
+      <strong>أستاذة أميرة عبدالله الحكمي</strong>
+      <span>الفصل الدراسي الأول</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== صفحة الهبوط (Landing) ===== -->
+<div id="landing-page">
+
+  <!-- Hero Section -->
+  <section class="hero-section" aria-label="قسم الترحيب">
+    <div class="hero-inner">
+      <div class="hero-rocket" aria-hidden="true">🚀</div>
+      <h2 class="hero-title">مرحباً في نوات ستيم 🌱</h2>
+      <p class="hero-subtitle">اكتشف عالم العلوم مع أستاذة أميرة</p>
+      <p class="hero-desc">
+        رحلة علمية ممتعة مليئة بالدروس التفاعلية والألعاب والاختبارات المثيرة
+        في مادة العلوم STEM للصف الأول الابتدائي
+      </p>
+      <button class="hero-cta-btn" onclick="scrollToGrades()" aria-label="ابدأ التعلم الآن">
+        ابدأ التعلم الآن ←
+      </button>
+    </div>
+  </section>
+
+  <!-- قسم اختر صفك -->
+  <section class="grades-section" id="grades-section" aria-label="اختر صفك الدراسي">
+    <div class="grades-inner">
+      <div class="grades-header">
+        <h2 class="grades-title">📚 اختر صفك الدراسي</h2>
+        <p class="grades-subtitle">اختر الصف المناسب لبدء رحلتك التعليمية</p>
+      </div>
+
+      <div class="grades-grid">
+
+        <!-- الصف الأول - مفتوح -->
+        <div class="grade-card grade-card--open"
+             onclick="enterApp()"
+             role="button"
+             tabindex="0"
+             aria-label="الصف الأول الابتدائي - مفتوح الآن"
+             onkeydown="if(event.key==='Enter') enterApp()">
+          <span class="grade-badge grade-badge--open">مفتوح الآن</span>
+          <div class="grade-icon" aria-hidden="true">🏫</div>
+          <h3 class="grade-name">الصف الأول</h3>
+          <p class="grade-desc">الابتدائي</p>
+          <div class="grade-arrow" aria-hidden="true">←</div>
+        </div>
+
+        <!-- الصف الثاني - قريباً -->
+        <div class="grade-card grade-card--soon"
+             role="button"
+             tabindex="0"
+             aria-label="الصف الثاني الابتدائي - قريباً"
+             aria-disabled="true">
+          <span class="grade-badge grade-badge--soon">قريباً</span>
+          <div class="grade-icon" aria-hidden="true">📖</div>
+          <h3 class="grade-name">الصف الثاني</h3>
+          <p class="grade-desc">الابتدائي</p>
+        </div>
+
+        <!-- الصف الثالث - قريباً -->
+        <div class="grade-card grade-card--soon"
+             role="button"
+             tabindex="0"
+             aria-label="الصف الثالث الابتدائي - قريباً"
+             aria-disabled="true">
+          <span class="grade-badge grade-badge--soon">قريباً</span>
+          <div class="grade-icon" aria-hidden="true">🔬</div>
+          <h3 class="grade-name">الصف الثالث</h3>
+          <p class="grade-desc">الابتدائي</p>
+        </div>
+
+        <!-- الصف الرابع - قريباً -->
+        <div class="grade-card grade-card--soon"
+             role="button"
+             tabindex="0"
+             aria-label="الصف الرابع الابتدائي - قريباً"
+             aria-disabled="true">
+          <span class="grade-badge grade-badge--soon">قريباً</span>
+          <div class="grade-icon" aria-hidden="true">🧪</div>
+          <h3 class="grade-name">الصف الرابع</h3>
+          <p class="grade-desc">الابتدائي</p>
+        </div>
+
+        <!-- الصف الخامس - قريباً -->
+        <div class="grade-card grade-card--soon"
+             role="button"
+             tabindex="0"
+             aria-label="الصف الخامس الابتدائي - قريباً"
+             aria-disabled="true">
+          <span class="grade-badge grade-badge--soon">قريباً</span>
+          <div class="grade-icon" aria-hidden="true">🌍</div>
+          <h3 class="grade-name">الصف الخامس</h3>
+          <p class="grade-desc">الابتدائي</p>
+        </div>
+
+        <!-- الصف السادس - قريباً -->
+        <div class="grade-card grade-card--soon"
+             role="button"
+             tabindex="0"
+             aria-label="الصف السادس الابتدائي - قريباً"
+             aria-disabled="true">
+          <span class="grade-badge grade-badge--soon">قريباً</span>
+          <div class="grade-icon" aria-hidden="true">⚗️</div>
+          <h3 class="grade-name">الصف السادس</h3>
+          <p class="grade-desc">الابتدائي</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== تطبيق المحتوى الرئيسي (مخفي في البداية) ===== -->
+<div id="app-content" style="display:none">
+
+  <!-- ===== التنقل الرئيسي ===== -->
+  <nav class="main-nav" role="navigation" aria-label="التنقل الرئيسي">
+    <div class="nav-inner">
+      <button class="nav-back-home" onclick="goToLanding()" aria-label="العودة للصفحة الرئيسية">
+        🏠 الرئيسية
+      </button>
+      <button class="nav-btn active" onclick="showSection('lessons')" aria-selected="true" role="tab">
+        <span class="nav-icon" aria-hidden="true">📚</span>
+        الصفوف ودروس STEM
+      </button>
+      <button class="nav-btn" onclick="showSection('games')" aria-selected="false" role="tab">
+        <span class="nav-icon" aria-hidden="true">🎮</span>
+        ألعب مع ستيم
+      </button>
+      <button class="nav-btn" onclick="showSection('quiz')" aria-selected="false" role="tab">
+        <span class="nav-icon" aria-hidden="true">📝</span>
+        اختبر معلوماتك
+      </button>
+      <button class="nav-btn" onclick="showSection('chatbot')" aria-selected="false" role="tab">
+        <span class="nav-icon" aria-hidden="true">🤖</span>
+        الدردشة مع نوات
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== المحتوى الرئيسي ===== -->
+  <main role="main">
+
+    <!-- ===== قسم الدروس ===== -->
+    <div id="section-lessons" class="section-panel active" role="tabpanel">
+      <div id="semester-tabs" class="semester-tabs" style="display:none" role="tablist" aria-label="اختر الفصل الدراسي"></div>
+      <div id="lessons-view"><!-- يُملأ بـ JS --></div>
+    </div>
+
+    <!-- ===== قسم الألعاب ===== -->
+    <div id="section-games" class="section-panel" role="tabpanel">
+      <div id="games-view"><!-- يُملأ بـ JS --></div>
+    </div>
+
+    <!-- ===== قسم الاختبارات ===== -->
+    <div id="section-quiz" class="section-panel" role="tabpanel">
+      <div id="quiz-view"><!-- يُملأ بـ JS --></div>
+    </div>
+
+    <!-- ===== قسم الشات بوت ===== -->
+    <div id="section-chatbot" class="section-panel" role="tabpanel">
+      <div class="section-header">
+        <h2>🤖 الدردشة مع نوات</h2>
+        <p>اسألني عن أي درس وسأساعدك في الفهم والتعلم!</p>
+      </div>
+      <div class="chatbot-wrapper">
+        <div class="chat-window" role="log" aria-label="نافذة المحادثة">
+          <div class="chat-header">
+            <div class="bot-avatar" aria-hidden="true">🤖</div>
+            <div>
+              <h3>نوات <span class="online-dot" aria-label="متصل"></span></h3>
+              <p>مساعدك العلمي الذكي</p>
+            </div>
+          </div>
+          <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+          <div class="chat-input-area">
+            <input
+              type="text"
+              id="chatInput"
+              class="chat-input"
+              placeholder="اكتب سؤالك هنا..."
+              aria-label="اكتب رسالتك"
+              maxlength="200"
+              autocomplete="off"
+            >
+            <button class="chat-send-btn" onclick="sendMessage()" aria-label="إرسال الرسالة">
+              ➤
+            </button>
+          </div>
+        </div>
+        <div class="quick-questions mt-2" id="quickQuestions"></div>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<!-- ===== ذيل الصفحة ===== -->
+<footer role="contentinfo">
+  <p>
+    <strong>نوات ستيم</strong> &mdash;
+    موقع تعليمي لمادة العلوم STEM &mdash; الصف الأول الابتدائي
+  </p>
+  <p>جميع الحقوق محفوظة &copy; 2024 &mdash; <strong>أستاذة أميرة عبدالله الحكمي</strong></p>
+</footer>
+
+<!-- ===== البيانات والسكريبت ===== -->
+<script src="data.js"></script>
+<script src="semester2-data.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
